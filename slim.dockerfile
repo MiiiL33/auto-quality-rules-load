@@ -1,13 +1,11 @@
-FROM us-docker.pkg.dev/fif-corp-cl-misc-prod/fif-gaiaops-hardenized-prod/secaas/python:3.12
+FROM python:3.12-slim
 
 ENV PYTHONUNBUFFERED True
 ENV PATH="$PATH:/usr/src/app/.local/bin"
 
-USER root
-RUN apk update
-RUN apk upgrade --no-cache
+RUN apt-get update && apt-get upgrade -y && apt-get install -y curl
 
-RUN addgroup -S app && adduser -S -G app -h /usr/src/app app
+RUN groupadd -r app && useradd -r -g app -d /usr/src/app app
 
 WORKDIR /app
 
