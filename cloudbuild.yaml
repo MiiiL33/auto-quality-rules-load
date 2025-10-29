@@ -21,7 +21,9 @@ steps:
     args:
       - "-c"
       - |
-        terraform --version
+        cd /workspace
+        echo "Contenido de /workspace:"
+        ls -la
         terraform init -backend-config="bucket=$_TF_STATE_BUCKET"
 
   # 4️⃣ Terraform Validate
@@ -29,21 +31,27 @@ steps:
     entrypoint: "sh"
     args:
       - "-c"
-      - "terraform validate"
+      - |
+        cd /workspace
+        "terraform validate"
 
   # 5️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
-      - "terraform plan -out=tfplan -compact-warnings"
+      - |
+        cd /workspace
+        "terraform plan -out=tfplan -compact-warnings"
 
   # 6️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
-      - "terraform apply -auto-approve tfplan"
+      - |
+        cd /workspace
+        "terraform apply -auto-approve tfplan"
 
 # Imagen final para Cloud Build
 images:
