@@ -52,7 +52,6 @@ images:
 # Opciones de logging
 options:
   logging: CLOUD_LOGGING_ONLY
-  logsBucket: "gs://$TF_STATE_BUCKET/logs"
 
 # Service account que ejecuta el build
 serviceAccount: "cloudbuild-terraform@$PROJECT_ID.iam.gserviceaccount.com"
