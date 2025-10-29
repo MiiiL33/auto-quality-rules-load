@@ -1,0 +1,59 @@
+locals {
+	projects = concat(var.bfa_cl_projects, var.bfa_co_projects, var.bfa_pe_projects,
+	var.sfa_cl_projects, var.sfa_co_projects, var.sfa_pe_projects,
+	var.pay_cl_projects, var.pay_co_projects, var.pay_pe_projects,
+	var.loy_cl_projects, var.loy_co_projects, var.loy_pe_projects)
+}
+
+
+resource "google_service_account" "pubsub_cloudrun_sa" {
+	account_id                   = "fif-df-quality-rules-exec-sa"
+	project                      = var.project_id
+	display_name                 = "fif-df-quality-rules-exec-sa"
+	create_ignore_already_exists = true
+	description				  	 = "gitlab,109162,gcp_sa,dtqlty,lavilaa@bancofalabella.cl,dev,none,bfa,cl"
+}
+
+resource "google_project_iam_member" "sa_bucket_permissions" {
+	project    = var.project_id
+	role       = "roles/storage.objectViewer"
+	member     = "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+	depends_on = [google_service_account.pubsub_cloudrun_sa]
+}
+
+resource "google_project_iam_member" "sa_dataplex" {
+	for_each    = toset(local.projects)
+	project     = each.value
+	role        = "roles/dataplex.dataScanCreator"
+	member      = "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+	depends_on  = [google_service_account.pubsub_cloudrun_sa]
+}
+
+resource "google_project_iam_member" "sa_bigquery_dataEditor" {
+	project     = var.project_id
+	role        = "roles/bigquery.dataEditor"
+	member      = "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+	depends_on  = [google_service_account.pubsub_cloudrun_sa]
+}
+
+resource "google_project_iam_member" "sa_bigquery_jobUser" {
+	for_each	= toset(concat([var.project_id], local.projects))
+	project		= each.value
+	role        = "roles/bigquery.jobUser"
+	member      = "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+	depends_on  = [google_service_account.pubsub_cloudrun_sa]
+}
+
+resource "google_project_iam_member" "sa_bigquery_data_viewer" {
+	for_each 	= toset(local.projects)
+	project		= each.value
+	role		= "roles/bigquery.dataViewer"
+	member		= "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+	depends_on	= [google_service_account.pubsub_cloudrun_sa]
+}
+
+resource "google_project_iam_member" "fine_grained_reader" {
+	project = var.project_id
+	role    = "roles/datacatalog.categoryFineGrainedReader"
+	member  = "serviceAccount:${google_service_account.pubsub_cloudrun_sa.email}"
+}

@@ -42,7 +42,7 @@ Su objetivo es simplificar la gestión de reglas de calidad y mantener un regist
 ---
 
 ## Componentes que viven en el proceso
- - Cuenta de servicio dentro del proyecto: _quality-rules-load-exec@quality-rules-load-poc.iam.gserviceaccount.com_
+ - Cuenta de servicio dentro del proyecto: _quality-rules-exec-sa@quality-rules-load-poc.iam.gserviceaccount.com_
 	 - Roles: BigQuery Data Editor, BigQuery Job User, Dataplex DataScan Creator, Pub/Sub Subscriber, Storage Object Viewer.
 	- Bucket: *quality-rules-bucket*
 - Tópico y Suscripcion Pub/Sub²: quality-rules-load-topic: quality-rules-load-subscription

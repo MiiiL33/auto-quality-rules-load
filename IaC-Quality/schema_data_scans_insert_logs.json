@@ -1,0 +1,23 @@
+[
+    {"name": "status", "type": "STRING", "mode": "REQUIRED", "description": "Estado de la ejecución del DataScan"},
+    {"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
+    {"name": "hora_registro", "type": "STRING", "mode": "NULLABLE", "description": "Fecha y hora de creación del DataScan, en horario de Chile"},
+    {"name": "timestamp", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Marca de tiempo UTC de la ejecución"},
+    {"name": "bu", "type": "STRING", "mode": "NULLABLE", "description": "Business Unit"},
+    {"name": "country", "type": "STRING", "mode": "NULLABLE", "description": "País"},
+    {"name": "zone", "type": "STRING", "mode": "NULLABLE", "description": "Zona o región interna"},
+    {"name": "project", "type": "STRING", "mode": "NULLABLE", "description": "Proyecto de GCP"},
+    {"name": "dataset", "type": "STRING", "mode": "NULLABLE", "description": "Dataset de BigQuery"},
+    {"name": "table", "type": "STRING", "mode": "NULLABLE", "description": "Tabla de BigQuery"},
+    {"name": "filter_sentence", "type": "STRING", "mode": "NULLABLE", "description": "Filtro SQL aplicado al DataScan"},
+    {"name": "schedule", "type": "STRING", "mode": "NULLABLE", "description": "Cron schedule del DataScan"},
+    {"name": "periodicidad", "type": "STRING", "mode": "NULLABLE", "description": "Periodicidad en palabras"},
+    {"name": "query_size", "type": "STRING", "mode": "NULLABLE", "description": "Tamaño estimado de la consulta"},
+    {"name": "llaves", "type": "STRING", "mode": "NULLABLE", "description": "Columnas clave para unicidad"},
+    {"name": "regla_completitud", "type": "STRING", "mode": "NULLABLE", "description": "Expresión SQL para regla de completitud/frescura"},
+    {"name": "columnas_completitud", "type": "STRING", "mode": "NULLABLE", "description": "Columnas a validar por completitud"},
+    {"name": "columna_particion", "type": "STRING", "mode": "NULLABLE", "description": "Columna usada para partición/frescura"},
+    {"name": "publicar_resultados", "type": "BOOLEAN", "mode": "NULLABLE", "description": "Indica si se publican resultados en BQ"},
+    {"name": "result_table", "type": "STRING", "mode": "NULLABLE", "description": "Tabla de resultados destino"},
+    {"name": "descripcion_scan", "type": "STRING", "mode": "NULLABLE", "description": "Descripción del DataScan o ID del ticket de paso a producción"}
+]
