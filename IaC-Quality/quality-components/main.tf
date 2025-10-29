@@ -40,6 +40,7 @@ resource "google_cloud_run_service" "quality_rules_cloud_run" {
 	project  = var.project_id
 	template {
 		spec {
+			service_account_name = var.service_account_email
 			containers {
 				image = "us-central1-docker.pkg.dev/${var.project_id}/quality-rules-load/quality-rules-load:latest"
 				resources {
