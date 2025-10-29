@@ -1,0 +1,8 @@
+IaC-Quality/.terraform/
+IaC-Quality/.terraform.lock.hcl
+IaC-Quality/service-account/.terraform/
+IaC-Quality/service-account/.terraform.lock.hcl
+IaC-Quality/quality-components/.terraform/
+IaC-Quality/quality-components/.terraform.lock.hcl
+
+.DS_Store

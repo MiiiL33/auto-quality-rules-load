@@ -1,0 +1,50 @@
+steps:
+  # 1️⃣ Build Docker image
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "build"
+      - "-f"
+      - "slim.dockerfile"
+      - "-t"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
+      - "."
+
+  # 2️⃣ Push Docker image to Artifact Registry
+  - name: "gcr.io/cloud-builders/docker"
+    args:
+      - "push"
+      - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
+
+  # 3️⃣ Terraform Init
+  - name: "hashicorp/terraform:1.9.9"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        terraform --version
+        terraform init -backend-config="bucket=$TF_STATE_BUCKET"
+
+  # 4️⃣ Terraform Validate
+  - name: "hashicorp/terraform:1.9.9"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - "terraform validate"
+
+  # 5️⃣ Terraform Plan
+  - name: "hashicorp/terraform:1.9.9"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - "terraform plan -out=tfplan -compact-warnings"
+
+  # 6️⃣ Terraform Apply
+  - name: "hashicorp/terraform:1.9.9"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - "terraform apply -auto-approve tfplan"
+
+# Imagen final para Cloud Build
+images:
+  - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
