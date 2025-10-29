@@ -48,3 +48,11 @@ steps:
 # Imagen final para Cloud Build
 images:
   - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
+
+# Opciones de logging
+options:
+  logging: CLOUD_LOGGING_ONLY
+  logsBucket: "gs://$TF_STATE_BUCKET/logs"
+
+# Service account que ejecuta el build
+serviceAccount: "cloudbuild-terraform@$PROJECT_ID.iam.gserviceaccount.com"

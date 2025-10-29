@@ -1,9 +1,0 @@
-stages:
-  - test
-  - deploy
-  - post-deploy
-
-include:
-  - project: 'fif/data-factory/infrastructure-operations/gaiaops/gaiaops-pipelines'
-    ref: 'stable'
-    file: 'origin-repo.yaml'
