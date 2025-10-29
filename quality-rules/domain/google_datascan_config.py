@@ -30,8 +30,7 @@ class DataScanConfig:
         self.hora_registro = datetime.now(chile_tz).strftime("%Y-%m-%d %H:%M:%S")
         self.periodicidad = self.periodicidad.lower()
         self.result_table = (
-            # "fif-df-cl-ops-dev.dataplex.data_quality_scans_results" #Para dev!
-            "fif-df-data-governance.dataplex.data_quality_scans_results"  # Para prod!
+            "quality-rules-load-poc.dataplex.data_quality_scans_results"
             if self.publicar_resultados
             else None
         )
