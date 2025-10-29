@@ -16,7 +16,7 @@ steps:
       - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
 
   # 3️⃣ Terraform Init
-  - name: "hashicorp/terraform:1.9.9"
+  - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
@@ -25,21 +25,21 @@ steps:
         terraform init -backend-config="bucket=$_TF_STATE_BUCKET"
 
   # 4️⃣ Terraform Validate
-  - name: "hashicorp/terraform:1.9.9"
+  - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
       - "terraform validate"
 
   # 5️⃣ Terraform Plan
-  - name: "hashicorp/terraform:1.9.9"
+  - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
       - "terraform plan -out=tfplan -compact-warnings"
 
   # 6️⃣ Terraform Apply
-  - name: "hashicorp/terraform:1.9.9"
+  - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
