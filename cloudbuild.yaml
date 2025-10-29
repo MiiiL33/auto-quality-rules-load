@@ -21,8 +21,7 @@ steps:
     args:
       - "-c"
       - |
-        cd /workspace
-        echo "Contenido de /workspace:"
+        cd /workspace/IaC-Quality/
         ls -la
         terraform init -backend-config="bucket=$_TF_STATE_BUCKET"
 
@@ -32,7 +31,7 @@ steps:
     args:
       - "-c"
       - |
-        cd /workspace
+        cd /workspace/IaC-Quality/
         "terraform validate"
 
   # 5️⃣ Terraform Plan
@@ -41,7 +40,7 @@ steps:
     args:
       - "-c"
       - |
-        cd /workspace
+        cd /workspace/IaC-Quality/
         "terraform plan -out=tfplan -compact-warnings"
 
   # 6️⃣ Terraform Apply
@@ -50,7 +49,7 @@ steps:
     args:
       - "-c"
       - |
-        cd /workspace
+        cd /workspace/IaC-Quality/
         "terraform apply -auto-approve tfplan"
 
 # Imagen final para Cloud Build
