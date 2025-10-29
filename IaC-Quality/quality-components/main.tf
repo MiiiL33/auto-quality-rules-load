@@ -90,7 +90,7 @@ resource "google_pubsub_subscription" "quality-rules-load-subscription" {
 	topic     			 = google_pubsub_topic.quality-rules-load-topic.id
 	ack_deadline_seconds = 10
 	push_config {
-		push_endpoint = "${local.cloud_run_name}-${local.project_number}.us-central1.run.app/pubsub"
+		push_endpoint = "https://${local.cloud_run_name}-${local.project_number}.us-central1.run.app/pubsub"
 		oidc_token {
 			service_account_email = var.service_account_email
 		}
