@@ -22,7 +22,7 @@ steps:
       - "-c"
       - |
         terraform --version
-        terraform init -backend-config="bucket=$TF_STATE_BUCKET"
+        terraform init -backend-config="bucket=$_TF_STATE_BUCKET"
 
   # 4️⃣ Terraform Validate
   - name: "hashicorp/terraform:1.9.9"
@@ -55,3 +55,6 @@ options:
 
 # Service account que ejecuta el build
 serviceAccount: "cloudbuild-terraform@$PROJECT_ID.iam.gserviceaccount.com"
+
+substitutions:
+  _TF_STATE_BUCKET: "quality-rules-terraform-state"
