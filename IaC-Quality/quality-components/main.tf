@@ -1,3 +1,8 @@
+locals {
+	project_number = data.google_project.id_proyecto.number
+	cloud_run_name = "quality-rules-load-${var.environment}"
+}
+
 #Bucket de que contiene reglas de calidad
 resource "google_storage_bucket" "quality-rules-load-bucket" {
 	project				   		= var.project_id
@@ -60,7 +65,7 @@ resource "google_cloud_run_service" "quality_rules_cloud_run" {
 
 
 resource "google_cloud_run_service_iam_member" "pubsub_invoker" {
-	service    = google_cloud_run_service.quality_rules_cloud_run.status[0].url
+	service    = locals.cloud_run_name
 	location   = google_cloud_run_service.quality_rules_cloud_run.location
 	role       = "roles/run.invoker"
 	member     = "serviceAccount:${var.service_account_email}"
@@ -81,7 +86,7 @@ resource "google_pubsub_subscription" "quality-rules-load-subscription" {
 	topic     			 = google_pubsub_topic.quality-rules-load-topic.id
 	ack_deadline_seconds = 10
 	push_config {
-		push_endpoint = "${google_cloud_run_service.quality_rules_cloud_run.status[0].url}.us-central1.run.app/pubsub"
+		push_endpoint = "${local.cloud_run_name}.us-central1.run.app/pubsub"
 		oidc_token {
 			service_account_email = var.service_account_email
 		}
