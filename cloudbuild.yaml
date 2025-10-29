@@ -32,7 +32,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        "terraform validate"
+        terraform validate
 
   # 5️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
@@ -41,7 +41,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        "terraform plan -out=tfplan -compact-warnings"
+        terraform plan -out=tfplan -compact-warnings
 
   # 6️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
@@ -50,7 +50,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        "terraform apply -auto-approve tfplan"
+        terraform apply -auto-approve tfplan
 
 # Imagen final para Cloud Build
 images:
