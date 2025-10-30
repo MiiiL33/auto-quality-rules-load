@@ -45,6 +45,6 @@ resource "google_bigquery_table" "data_quality_scans_results" {
         type = "DAY"
         field = "execution_time"
     }
-    clustering = ["scan_id", "rule_name"]
+    clustering = ["scan_id", "name"]
     schema = file("schema_data_quality_scans_results.json")
 }
