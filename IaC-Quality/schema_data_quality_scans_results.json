@@ -1,94 +1,25 @@
 [
-    {
-        "name": "scan_id",
-        "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "ID único del DataScan"
-    },
-    {
-        "name": "name",
-        "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "Nombre del DataScan"
-    },
-    {
-        "name": "description",
-        "type": "STRING",
-        "mode": "NULLABLE",
-        "description": "Descripción del DataScan"
-    },
-    {
-        "name": "labels",
-        "type": "RECORD",
-        "mode": "NULLABLE",
-        "description": "Etiquetas asociadas al DataScan",
-        "fields": [
-        {
-            "name": "key",
-            "type": "STRING",
-            "mode": "NULLABLE",
-            "description": "Etiqueta clave"
-        },
-        {
-            "name": "value",
-            "type": "STRING",
-            "mode": "NULLABLE",
-            "description": "Etiqueta valor"
-        }
-        ]
-    },
-    {
-        "name": "resource",
-        "type": "STRING",
-        "mode": "REQUIRED",
-        "description": "Recurso sobre el cual se ejecutó el DataScan"
-    },
-    {
-        "name": "row_filter",
-        "type": "STRING",
-        "mode": "NULLABLE",
-        "description": "Filtro de filas aplicado al DataScan"
-    },
-    {
-        "name": "rules",
-        "type": "STRING",
-        "mode": "REPEATED",
-        "description": "Lista de reglas de calidad aplicadas"
-    },
-    {
-        "name": "cron_schedule",
-        "type": "STRING",
-        "mode": "NULLABLE",
-        "description": "Cron schedule de ejecución del DataScan"
-    },
-    {
-        "name": "status",
-        "type": "STRING",
-        "mode": "NULLABLE",
-        "description": "Estado de la ejecución del DataScan"
-    },
-    {
-        "name": "errors",
-        "type": "STRING",
-        "mode": "REPEATED",
-        "description": "Errores generados durante la ejecución del DataScan"
-    },
-    {
-        "name": "row_count",
-        "type": "INTEGER",
-        "mode": "NULLABLE",
-        "description": "Cantidad de filas evaluadas"
-    },
-    {
-        "name": "execution_time",
-        "type": "TIMESTAMP",
-        "mode": "REQUIRED",
-        "description": "Fecha y hora UTC de ejecución del DataScan"
-    },
-    {
-        "name": "created_at",
-        "type": "TIMESTAMP",
-        "mode": "REQUIRED",
-        "description": "Fecha y hora de creación del registro del DataScan"
-    }
+    {"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
+    {"name": "name", "type": "STRING", "mode": "REQUIRED", "description": "Nombre del DataScan"},
+    {"name": "description", "type": "STRING", "mode": "NULLABLE", "description": "Descripción del DataScan"},
+    {"name": "labels", "type": "RECORD", "mode": "NULLABLE", "description": "Etiquetas asociadas al DataScan", "fields": [
+        {"name": "project", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "zone", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "periodicidad", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "tipo_creacion", "type": "STRING", "mode": "NULLABLE"}
+    ]},
+    {"name": "resource", "type": "STRING", "mode": "REQUIRED", "description": "Recurso BigQuery escaneado"},
+    {"name": "row_filter", "type": "STRING", "mode": "NULLABLE", "description": "Filtro aplicado a las filas"},
+    {"name": "rules", "type": "RECORD", "mode": "REPEATED", "description": "Reglas evaluadas en el DataScan", "fields": [
+        {"name": "rule_id", "type": "STRING", "mode": "REQUIRED"},
+        {"name": "description", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "state", "type": "STRING", "mode": "NULLABLE"},
+        {"name": "evaluation", "type": "STRING", "mode": "NULLABLE"}
+    ]},
+    {"name": "cron_schedule", "type": "STRING", "mode": "NULLABLE", "description": "Cron schedule del DataScan"},
+    {"name": "status", "type": "STRING", "mode": "NULLABLE", "description": "Estado del DataScan"},
+    {"name": "errors", "type": "STRING", "mode": "REPEATED", "description": "Errores ocurridos durante el DataScan"},
+    {"name": "row_count", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas evaluadas"},
+    {"name": "execution_time", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Marca de tiempo UTC de la ejecución"},
+    {"name": "created_at", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Fecha de creación del DataScan"}
 ]
