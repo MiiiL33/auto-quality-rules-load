@@ -6,8 +6,6 @@ import pytz
 @dataclass
 class DataScanConfig:
     """Entidad de dominio que representa la configuración de un DataScan."""
-    bu: str
-    country: str
     zone: str
     project: str
     dataset: str
@@ -51,8 +49,6 @@ class DataScanConfig:
 
 
         return cls(
-            bu = normalize(data.get("bu")),
-            country = normalize(data.get("country")),
             zone = normalize(data.get("zone")),
             project = normalize(data.get("project")),
             dataset = normalize(data.get("dataset")),
