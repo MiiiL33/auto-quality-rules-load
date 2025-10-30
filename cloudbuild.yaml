@@ -47,14 +47,6 @@ steps:
         IMAGE_TAG=$(cat /workspace/image_tag.txt)
         terraform plan -out=tfplan -var "image_tag=$$IMAGE_TAG"
 
-  - name: "hashicorp/terraform:1.13.4"
-    id: "terraform destroy"
-    entrypoint: "sh"
-    args:
-      - "-c"
-      - |
-        cd /workspace/IaC-Quality/
-        terraform destroy -auto-approve -var "image_tag=$$IMAGE_TAG"
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"

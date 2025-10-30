@@ -13,16 +13,15 @@ module "quality_components" {
 }
 
 
-# resource "google_bigquery_dataset" "dataplex" {
-#     dataset_id = "dataplex"
-#     project    = var.project_id
-#     location   = "us-central1"
-# }
+resource "google_bigquery_dataset" "dataplex" {
+    dataset_id = "dataplex"
+    project    = var.project_id
+    location   = "us-central1"
+}
 
 resource "google_bigquery_table" "data_scans_insert_logs" {
 	project  = var.project_id
-	# dataset_id = google_bigquery_dataset.dataplex.dataset_id
-    dataset_id = "dataplex"
+	dataset_id = google_bigquery_dataset.dataplex.dataset_id
 	table_id = "data_scans_insert_logs"
 	deletion_protection = false
 	description = "Tabla que contiene logs de inserciones de DataScans mediante Reglas de Calidad automáticas"
@@ -32,13 +31,12 @@ resource "google_bigquery_table" "data_scans_insert_logs" {
     }
     clustering = ["scan_id"]
 	schema = file("schema_data_scans_insert_logs.json")
-    # depends_on = [google_bigquery_dataset.dataplex]
+    depends_on = [google_bigquery_dataset.dataplex]
 }
 
 resource "google_bigquery_table" "data_quality_scans_results" {
     project  = var.project_id
-	# dataset_id = google_bigquery_dataset.dataplex.dataset_id
-    dataset_id = "dataplex"
+	dataset_id = google_bigquery_dataset.dataplex.dataset_id
 	table_id = "data_quality_scans_results"
 	deletion_protection = false
     description = "Tabla que contiene resultados de DataScans ejecutados mediante Reglas de Calidad automáticas"
@@ -48,5 +46,5 @@ resource "google_bigquery_table" "data_quality_scans_results" {
     }
     clustering = ["scan_id", "name"]
     schema = file("schema_data_quality_scans_results.json")
-    # depends_on = [google_bigquery_dataset.dataplex]
+    depends_on = [google_bigquery_dataset.dataplex]
 }
