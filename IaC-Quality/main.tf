@@ -8,6 +8,7 @@ module "quality_components" {
     project_id            = var.project_id
     environment           = var.environment
     service_account_email = module.service_account.service_account_email
+    image_tag             = var.image_tag
     depends_on            = [module.service_account]
 }
 
