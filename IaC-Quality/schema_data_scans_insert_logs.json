@@ -3,8 +3,6 @@
     {"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
     {"name": "hora_registro", "type": "STRING", "mode": "NULLABLE", "description": "Fecha y hora de creación del DataScan, en horario de Chile"},
     {"name": "timestamp", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Marca de tiempo UTC de la ejecución"},
-    {"name": "bu", "type": "STRING", "mode": "NULLABLE", "description": "Business Unit"},
-    {"name": "country", "type": "STRING", "mode": "NULLABLE", "description": "País"},
     {"name": "zone", "type": "STRING", "mode": "NULLABLE", "description": "Zona o región interna"},
     {"name": "project", "type": "STRING", "mode": "NULLABLE", "description": "Proyecto de GCP"},
     {"name": "dataset", "type": "STRING", "mode": "NULLABLE", "description": "Dataset de BigQuery"},
