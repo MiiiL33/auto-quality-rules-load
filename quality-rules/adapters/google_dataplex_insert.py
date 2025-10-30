@@ -119,7 +119,7 @@ class GoogleDataplexInsert:
         """Inserta el DataScan en Dataplex usando la API oficial. Retorna la respuesta del servicio."""
         scan_id = scan_payload['name'].split('/')[-1]
         bq_adapter = BigQueryAdapter(
-            project_id="fif-df-data-governance",
+            project_id="quality-rules-load-poc",
             dataset="dataplex",
             table="data_scans_insert_logs",
             scan_id=scan_id
