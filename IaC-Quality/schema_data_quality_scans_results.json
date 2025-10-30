@@ -1,8 +1,12 @@
 [
-{"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
+    {"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
     {"name": "name", "type": "STRING", "mode": "REQUIRED", "description": "Nombre del DataScan"},
     {"name": "description", "type": "STRING", "mode": "NULLABLE", "description": "Descripción del DataScan"},
-    {"name": "labels", "type": "RECORD", "mode": "NULLABLE", "description": "Etiquetas asociadas al DataScan"},
+    {"name": "labels", "type": "RECORD", "mode": "NULLABLE", "description": "Etiquetas asociadas al DataScan",
+        "fields": [
+            {"name": "key", "type": "STRING", "mode": "NULLABLE"},
+            {"name": "value", "type": "STRING", "mode": "NULLABLE"}
+    ]},
     {"name": "resource", "type": "STRING", "mode": "REQUIRED", "description": "Recurso sobre el cual se ejecuta el DataScan"},
     {"name": "row_filter", "type": "STRING", "mode": "NULLABLE", "description": "Filtro aplicado a las filas"},
     {"name": "rules", "type": "STRING", "mode": "REPEATED", "description": "Reglas de calidad aplicadas"},
