@@ -16,7 +16,7 @@ module "quality_components" {
 resource "google_bigquery_dataset" "dataplex" {
     dataset_id = "dataplex"
     project    = var.project_id
-    location   = "US"
+    location   = "us-central1"
 }
 
 resource "google_bigquery_table" "data_scans_insert_logs" {
