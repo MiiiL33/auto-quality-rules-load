@@ -42,7 +42,7 @@ resource "google_bigquery_table" "data_quality_scans_results" {
     description = "Tabla que contiene resultados de DataScans ejecutados mediante Reglas de Calidad automáticas"
     time_partitioning {
         type = "DAY"
-        field = "execution_time"
+        field = "created_at"
     }
     clustering = ["scan_id"]
     schema = file("schema_data_quality_scans_results.json")
