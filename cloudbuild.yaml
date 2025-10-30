@@ -54,7 +54,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        terraform destroy -auto-approve tfplan
+        terraform destroy -auto-approve -var "image_tag=$$IMAGE_TAG"
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
