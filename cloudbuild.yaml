@@ -7,10 +7,10 @@ steps:
       - "-c"
       - |
         IMAGE_TAG=$(date +%s)
-        echo "Usando IMAGE_TAG=$IMAGE_TAG"
-        docker build -f slim.dockerfile -t us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG .
-        docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG
-        echo $IMAGE_TAG > /workspace/image_tag.txt
+        echo "Usando IMAGE_TAG=$$IMAGE_TAG"
+        docker build -f slim.dockerfile -t us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$$IMAGE_TAG .
+        docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$$IMAGE_TAG
+        echo $$IMAGE_TAG > /workspace/image_tag.txt
 
   # 2️⃣ Terraform Init
   - name: "hashicorp/terraform:1.13.4"
@@ -38,7 +38,7 @@ steps:
       - |
         cd /workspace/IaC-Quality/
         IMAGE_TAG=$(cat /workspace/image_tag.txt)
-        terraform plan -out=tfplan -var "image_tag=$IMAGE_TAG"
+        terraform plan -out=tfplan -var "image_tag=$$IMAGE_TAG"
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
@@ -48,7 +48,7 @@ steps:
       - |
         cd /workspace/IaC-Quality/
         IMAGE_TAG=$(cat /workspace/image_tag.txt)
-        terraform apply -auto-approve tfplan -var "image_tag=$IMAGE_TAG"
+        terraform apply -auto-approve tfplan -var "image_tag=$$IMAGE_TAG"
 
 # Imagen final para Cloud Build
 images:
