@@ -35,6 +35,15 @@ steps:
         cd /workspace/IaC-Quality/
         terraform validate
 
+  - name: "hashicorp/terraform:1.13.4"
+    id: "terraform destroy"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        cd /workspace/IaC-Quality/
+        terraform destroy
+
   # 4️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
     id: "terraform plan"
