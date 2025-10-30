@@ -4,7 +4,7 @@ data "google_project" "id_proyecto" {
 
 locals {
 	project_number = data.google_project.id_proyecto.number
-	cloud_run_name = "quality-rules-load-${var.environment}"
+	cloud_run_name = "quality-rules-load"
 }
 
 #Bucket de que contiene reglas de calidad
@@ -69,7 +69,7 @@ resource "google_cloud_run_service" "quality_rules_cloud_run" {
 
 
 resource "google_cloud_run_service_iam_member" "pubsub_invoker" {
-	service    = local.cloud_run_name
+	service    = "https://${local.cloud_run_name}-${local.project_number}.us-central1.run.app/pubsub"
 	location   = google_cloud_run_service.quality_rules_cloud_run.location
 	role       = "roles/run.invoker"
 	member     = "serviceAccount:${var.service_account_email}"
