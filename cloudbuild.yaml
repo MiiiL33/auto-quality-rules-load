@@ -54,7 +54,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        terraform destroy tfplan -auto-approve
+        terraform destroy -auto-approve tfplan
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
