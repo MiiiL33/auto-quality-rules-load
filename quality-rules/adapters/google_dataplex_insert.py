@@ -17,12 +17,12 @@ class GoogleDataplexInsert:
         """Genera un ID único para el DataScan basado en la configuración."""
         cleaned_table = (config.table.replace("_", "-")[:42].strip("-").lower())
         fecha_scan = datetime.strptime(config.hora_registro, "%Y-%m-%d %H:%M:%S").strftime("%Y%m%d") # Formato fecha
-        return "-".join([config.bu, config.country, config.zone, cleaned_table, fecha_scan])
+        return "-".join([config.zone, cleaned_table, fecha_scan])
 
     def _display_name(self, config: DataScanConfig) -> str:
         """Genera un nombre legible para el DataScan."""
         fecha_scan = datetime.strptime(config.hora_registro, "%Y-%m-%d %H:%M:%S").strftime("%Y%m%d") # Formato fecha
-        return f"{config.bu}-{config.country}-{config.zone}-{config.table[:20]}-{fecha_scan}"
+        return f"{config.zone}-{config.table[:20]}-{fecha_scan}"
 
     def _column_completeness_template(self, column: str) -> Dict[str, Any]:
         """Genera una regla de completitud para una columna específica."""
@@ -82,8 +82,6 @@ class GoogleDataplexInsert:
             "description": config.descripcion_scan,
             "labels": {
                 "project": config.project,
-                "bu": config.bu,
-                "country": config.country,
                 "zone": config.zone,
                 "periodicidad": config.periodicidad,
                 "tipo_creacion": "automatica"
