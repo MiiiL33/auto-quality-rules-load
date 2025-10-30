@@ -2,12 +2,12 @@ steps:
   # 1️⃣ Build Docker image
   - name: "gcr.io/cloud-builders/docker"
     args:
-      - "build"
-      - "-f"
-      - "slim.dockerfile"
-      - "-t"
-      - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
-      - "."
+      - "-c"
+      - |
+        IMAGE_TAG=$(date +%s)
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $BUILDER_OUTPUT/env_file
+        docker build -f slim.dockerfile -t us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG .
+        docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG
 
   # 2️⃣ Push Docker image to Artifact Registry
   - name: "gcr.io/cloud-builders/docker"
@@ -50,7 +50,7 @@ steps:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        terraform apply -auto-approve tfplan
+        terraform apply -auto-approve -var "image_tag=$(cat $BUILDER_OUTPUT/env_file | grep IMAGE_TAG | cut -d '=' -f2)"
 
 # Imagen final para Cloud Build
 images:
