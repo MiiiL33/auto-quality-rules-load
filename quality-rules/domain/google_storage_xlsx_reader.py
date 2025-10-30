@@ -7,7 +7,7 @@ def normalizar_celda(value):
     return None if value is None or (isinstance(value, str) and not value.strip()) else value
 
 COLUMNAS_REQUERIDAS = [
-    "bu", "country", "zone", "project", "dataset", "table", "filter_sentence",
+    "zone", "project", "dataset", "table", "filter_sentence",
     "schedule", "periodicidad", "llaves", "regla_completitud", "columnas_completitud", "columna_particion", "descripcion_scan"
 ]
 
