@@ -34,3 +34,17 @@ resource "google_bigquery_table" "data_scans_insert_logs" {
 
 	schema = file("schema_data_scans_insert_logs.json")
 }
+
+resource "google_bigquery_table" "data_quality_scans_results" {
+    project  = var.project_id
+	dataset_id = google_bigquery_dataset.dataplex.dataset_id
+	table_id = "data_quality_scans_results"
+	deletion_protection = false
+    description = "Tabla que contiene resultados de DataScans ejecutados mediante Reglas de Calidad automáticas"
+    time_partitioning {
+        type = "DAY"
+        field = "execution_time"
+    }
+    clustering = ["scan_id", "rule_name"]
+    schema = file("schema_data_quality_scans_results.json")
+}
