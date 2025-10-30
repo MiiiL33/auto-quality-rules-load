@@ -59,3 +59,6 @@ Dentro de Cloud Run, el archivo es leído y transformado en un formato estándar
 [³] La Cloud Run es *una* para todas las bu-país (buckets, tópicos/suscripciones).
 
 [⁴] Si deseas agregar una feature, puedes crear una rama en este mismo repositorio a partir de main, desarrolla tu feature, luego haces un Merge Request hacia rama main
+
+
+API de dataplex: https://cloud.google.com/dataplex/docs/use-auto-data-quality#table-schema
