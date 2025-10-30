@@ -44,7 +44,7 @@ resource "google_bigquery_table" "data_quality_scans_results" {
         type = "DAY"
         field = "execution_time"
     }
-    clustering = ["scan_id", "name"]
+    clustering = ["scan_id"]
     schema = file("schema_data_quality_scans_results.json")
     depends_on = [google_bigquery_dataset.dataplex]
 }
