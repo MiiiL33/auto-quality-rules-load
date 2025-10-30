@@ -14,6 +14,7 @@ steps:
 
   # 2️⃣ Terraform Init
   - name: "hashicorp/terraform:1.13.4"
+    id: "terraform init"
     entrypoint: "sh"
     args:
       - "-c"
@@ -23,6 +24,7 @@ steps:
 
   # 3️⃣ Terraform Validate
   - name: "hashicorp/terraform:1.13.4"
+    id: "terraform validate"
     entrypoint: "sh"
     args:
       - "-c"
@@ -32,6 +34,7 @@ steps:
 
   # 4️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
+    id: "terraform plan"
     entrypoint: "sh"
     args:
       - "-c"
@@ -42,13 +45,14 @@ steps:
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
+    id: "terraform apply"
     entrypoint: "sh"
     args:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
         IMAGE_TAG=$(cat /workspace/image_tag.txt)
-        terraform apply -auto-approve tfplan -var "image_tag=$$IMAGE_TAG"
+        terraform apply -auto-approve tfplan
 
 # Imagen final para Cloud Build
 images:
