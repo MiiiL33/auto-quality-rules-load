@@ -69,7 +69,7 @@ resource "google_cloud_run_service" "quality_rules_cloud_run" {
 
 
 resource "google_cloud_run_service_iam_member" "pubsub_invoker" {
-	service    = "https://${local.cloud_run_name}-${local.project_number}.us-central1.run.app/pubsub"
+	service    = google_cloud_run_service.quality_rules_cloud_run.name
 	location   = google_cloud_run_service.quality_rules_cloud_run.location
 	role       = "roles/run.invoker"
 	member     = "serviceAccount:${var.service_account_email}"
