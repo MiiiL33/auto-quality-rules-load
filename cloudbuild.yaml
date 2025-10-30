@@ -10,6 +10,9 @@ steps:
         echo "Usando IMAGE_TAG=$$IMAGE_TAG"
         docker build -f slim.dockerfile -t us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$$IMAGE_TAG .
         docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$$IMAGE_TAG
+        docker tag us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest
+        docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest
+
         echo $$IMAGE_TAG > /workspace/image_tag.txt
 
   # 2️⃣ Terraform Init
