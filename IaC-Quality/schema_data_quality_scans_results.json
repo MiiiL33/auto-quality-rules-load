@@ -1,25 +1,57 @@
 [
-    {"name": "scan_id", "type": "STRING", "mode": "REQUIRED", "description": "ID único del DataScan"},
-    {"name": "name", "type": "STRING", "mode": "REQUIRED", "description": "Nombre del DataScan"},
-    {"name": "description", "type": "STRING", "mode": "NULLABLE", "description": "Descripción del DataScan"},
-    {"name": "labels", "type": "RECORD", "mode": "NULLABLE", "description": "Etiquetas asociadas al DataScan", "fields": [
-        {"name": "project", "type": "STRING", "mode": "NULLABLE"},
-        {"name": "zone", "type": "STRING", "mode": "NULLABLE"},
-        {"name": "periodicidad", "type": "STRING", "mode": "NULLABLE"},
-        {"name": "tipo_creacion", "type": "STRING", "mode": "NULLABLE"}
-    ]},
-    {"name": "resource", "type": "STRING", "mode": "REQUIRED", "description": "Recurso BigQuery escaneado"},
-    {"name": "row_filter", "type": "STRING", "mode": "NULLABLE", "description": "Filtro aplicado a las filas"},
-    {"name": "rules", "type": "RECORD", "mode": "REPEATED", "description": "Reglas evaluadas en el DataScan", "fields": [
-        {"name": "rule_id", "type": "STRING", "mode": "REQUIRED"},
-        {"name": "description", "type": "STRING", "mode": "NULLABLE"},
-        {"name": "state", "type": "STRING", "mode": "NULLABLE"},
-        {"name": "evaluation", "type": "STRING", "mode": "NULLABLE"}
-    ]},
-    {"name": "cron_schedule", "type": "STRING", "mode": "NULLABLE", "description": "Cron schedule del DataScan"},
-    {"name": "status", "type": "STRING", "mode": "NULLABLE", "description": "Estado del DataScan"},
-    {"name": "errors", "type": "STRING", "mode": "REPEATED", "description": "Errores ocurridos durante el DataScan"},
-    {"name": "row_count", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas evaluadas"},
-    {"name": "execution_time", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Marca de tiempo UTC de la ejecución"},
-    {"name": "created_at", "type": "TIMESTAMP", "mode": "REQUIRED", "description": "Fecha de creación del DataScan"}
+    {"name": "data_quality_scan", "type": "RECORD", "mode": "NULLABLE", "description": "Metadata del escaneo de calidad",
+        "fields": [
+            {"name": "resource_name", "type": "STRING", "mode": "NULLABLE", "description": "Nombre del DataScan"},
+            {"name": "project_id", "type": "STRING", "mode": "NULLABLE", "description": "ID del proyecto del DataScan"},
+            {"name": "location", "type": "STRING", "mode": "NULLABLE", "description": "Ubicación del DataScan"},
+            {"name": "data_scan_id", "type": "STRING", "mode": "NULLABLE", "description": "ID interno del DataScan"}
+        ]
+    },
+    {"name": "data_source", "type": "RECORD", "mode": "NULLABLE", "description": "Información del origen de datos escaneado",
+        "fields": [
+            {"name": "resource_name", "type": "STRING", "mode": "NULLABLE", "description": "Recurso origen (table o entidad)"},
+            {"name": "dataplex_entity_project_id", "type": "STRING", "mode": "NULLABLE", "description": "ID de proyecto de entidad Dataplex"},
+            {"name": "dataplex_entity_project_number", "type": "INTEGER", "mode": "NULLABLE", "description": "Número de proyecto entidad Dataplex"},
+            {"name": "dataplex_lake_id", "type": "STRING", "mode": "NULLABLE", "description": "ID del lago Dataplex (si aplica)"},
+            {"name": "dataplex_zone_id", "type": "STRING", "mode": "NULLABLE", "description": "ID de la zona Dataplex (si aplica)"},
+            {"name": "dataplex_entity_id", "type": "STRING", "mode": "NULLABLE", "description": "ID de la entidad Dataplex (si aplica)"},
+            {"name": "table_project_id", "type": "STRING", "mode": "NULLABLE", "description": "ID del proyecto de la tabla origen"},
+            {"name": "table_project_number", "type": "INTEGER", "mode": "NULLABLE", "description": "Número de proyecto de la tabla origen"},
+            {"name": "dataset_id", "type": "STRING", "mode": "NULLABLE", "description": "Dataset de la tabla origen"},
+            {"name": "table_id", "type": "STRING", "mode": "NULLABLE", "description": "Tabla origen"}
+        ]
+    },
+    {"name": "data_quality_job_id", "type": "STRING", "mode": "NULLABLE", "description": "ID del trabajo de calidad de datos"},
+    {"name": "data_quality_job_configuration", "type": "RECORD", "mode": "NULLABLE", "description": "Configuración del trabajo de calidad de datos",
+        "fields": [
+            {"name": "trigger", "type": "STRING", "mode": "NULLABLE", "description": "Tipo de activador: ondemand/schedule"},
+            {"name": "incremental", "type": "BOOLEAN", "mode": "NULLABLE", "description": "Indica si es incremental"},
+            {"name": "sampling_percent", "type": "FLOAT", "mode": "NULLABLE", "description": "Porcentaje de muestreo"},
+            {"name": "row_filter", "type": "STRING", "mode": "NULLABLE", "description": "Filtro SQL de filas"},
+            {"name": "job_labels", "type": "STRING", "mode": "NULLABLE", "description": "Etiquetas del job en formato JSON"}
+        ]
+    },
+    {"name": "job_start_time", "type": "TIMESTAMP", "mode": "NULLABLE", "description": "Tiempo de inicio del job"},
+    {"name": "job_end_time", "type": "TIMESTAMP", "mode": "NULLABLE", "description": "Tiempo de fin del job"},
+    {"name": "job_rows_scanned", "type": "INTEGER", "mode": "NULLABLE", "description": "Número de filas escaneadas"},
+    {"name": "rule_name", "type": "STRING", "mode": "NULLABLE", "description": "Nombre de la regla aplicada"},
+    {"name": "rule_type", "type": "STRING", "mode": "NULLABLE", "description": "Tipo de regla"},
+    {"name": "rule_evaluation_type", "type": "STRING", "mode": "NULLABLE", "description": "Tipo de evaluación (por fila / tabla)"},
+    {"name": "rule_column", "type": "STRING", "mode": "NULLABLE", "description": "Columna objetivo de la regla"},
+    {"name": "rule_dimension", "type": "STRING", "mode": "NULLABLE", "description": "Dimensión de calidad evaluada"},
+    {"name": "job_quality_result", "type": "RECORD", "mode": "NULLABLE", "description": "Resultado global del job de calidad",
+        "fields": [
+            {"name": "passed", "type": "BOOLEAN", "mode": "NULLABLE"},
+            {"name": "score", "type": "FLOAT", "mode": "NULLABLE"}
+        ]
+    },
+    {"name": "job_dimension_result", "type": "STRING", "mode": "NULLABLE", "description": "Resultados por dimensión en formato JSON"},
+    {"name": "rule_threshold_percent", "type": "FLOAT", "mode": "NULLABLE", "description": "Porcentaje de umbral de la regla"},
+    {"name": "rule_parameters", "type": "STRING", "mode": "NULLABLE", "description": "Parámetros de la regla en formato JSON"},
+    {"name": "rule_pass", "type": "BOOLEAN", "mode": "NULLABLE", "description": "Indicador si la regla pasó"},
+    {"name": "rule_rows_evaluated", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas evaluadas por la regla"},
+    {"name": "rule_rows_passed", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas que pasaron la regla"},
+    {"name": "rule_rows_null", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas nulas evaluadas"},
+    {"name": "rule_failed_records_query", "type": "STRING", "mode": "NULLABLE", "description": "Consulta que extrae las filas que fallaron"},
+    {"name": "rule_assertion_row_count", "type": "INTEGER", "mode": "NULLABLE", "description": "Cantidad de filas en consulta de aserción"}
 ]
