@@ -35,14 +35,6 @@ steps:
         cd /workspace/IaC-Quality/
         terraform validate
 
-  - name: "hashicorp/terraform:1.13.4"
-    id: "terraform destroy"
-    entrypoint: "sh"
-    args:
-      - "-c"
-      - |
-        cd /workspace/IaC-Quality/
-        terraform destroy
 
   # 4️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
@@ -54,6 +46,15 @@ steps:
         cd /workspace/IaC-Quality/
         IMAGE_TAG=$(cat /workspace/image_tag.txt)
         terraform plan -out=tfplan -var "image_tag=$$IMAGE_TAG"
+
+  - name: "hashicorp/terraform:1.13.4"
+    id: "terraform destroy"
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
+        cd /workspace/IaC-Quality/
+        terraform destroy tfplan -auto-approve
 
   # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
