@@ -40,7 +40,7 @@ resource "google_bigquery_table" "data_quality_scans_results" {
 	table_id = "data_quality_scans_results"
 	deletion_protection = false
     description = "Tabla que contiene resultados de DataScans ejecutados mediante Reglas de Calidad automáticas"
-    clustering = ["scan_id"]
+    clustering = ["data_quality_job_id"]
     schema = file("schema_data_quality_scans_results.json")
     depends_on = [google_bigquery_dataset.dataplex]
 }
