@@ -29,10 +29,9 @@ resource "google_bigquery_table" "data_scans_insert_logs" {
         type = "DAY"
         field = "timestamp"
     }
-
     clustering = ["scan_id"]
-
 	schema = file("schema_data_scans_insert_logs.json")
+    depends_on = [google_bigquery_dataset.dataplex]
 }
 
 resource "google_bigquery_table" "data_quality_scans_results" {
@@ -47,4 +46,5 @@ resource "google_bigquery_table" "data_quality_scans_results" {
     }
     clustering = ["scan_id", "name"]
     schema = file("schema_data_quality_scans_results.json")
+    depends_on = [google_bigquery_dataset.dataplex]
 }
