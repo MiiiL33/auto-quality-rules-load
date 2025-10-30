@@ -63,4 +63,3 @@ serviceAccount: "cloudbuild-terraform@$PROJECT_ID.iam.gserviceaccount.com"
 
 substitutions:
   _TF_STATE_BUCKET: "quality-rules-terraform-state"
-  _IMAGE_TAG: "latest"
