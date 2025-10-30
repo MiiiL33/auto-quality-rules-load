@@ -51,7 +51,7 @@ resource "google_cloud_run_service" "quality_rules_cloud_run" {
 		spec {
 			service_account_name = var.service_account_email
 			containers {
-				image = "us-central1-docker.pkg.dev/${var.project_id}/quality-rules-load/quality-rules-load:latest"
+				image = "us-central1-docker.pkg.dev/${var.project_id}/quality-rules-load/quality-rules-load:${var.image_tag}"
 				resources {
 					limits = {
 						memory = "512Mi"

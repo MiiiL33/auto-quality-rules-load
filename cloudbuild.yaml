@@ -1,31 +1,28 @@
 steps:
-  # 1️⃣ Build Docker image
+  # 1️⃣ Build Docker image con tag dinámico
   - name: "gcr.io/cloud-builders/docker"
+    id: "Build Docker"
+    entrypoint: "bash"
     args:
       - "-c"
       - |
         IMAGE_TAG=$(date +%s)
-        echo "IMAGE_TAG=$IMAGE_TAG" >> $BUILDER_OUTPUT/env_file
+        echo "Usando IMAGE_TAG=$IMAGE_TAG"
         docker build -f slim.dockerfile -t us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG .
         docker push us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:$IMAGE_TAG
+        # Guardar el tag en un archivo temporal para el paso siguiente
+        echo $IMAGE_TAG > /workspace/image_tag.txt
 
-  # 2️⃣ Push Docker image to Artifact Registry
-  - name: "gcr.io/cloud-builders/docker"
-    args:
-      - "push"
-      - "us-central1-docker.pkg.dev/$PROJECT_ID/quality-rules-load/quality-rules-load:latest"
-
-  # 3️⃣ Terraform Init
+  # 2️⃣ Terraform Init
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        ls -la
         terraform init -backend-config="bucket=$_TF_STATE_BUCKET"
 
-  # 4️⃣ Terraform Validate
+  # 3️⃣ Terraform Validate
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
@@ -34,23 +31,25 @@ steps:
         cd /workspace/IaC-Quality/
         terraform validate
 
-  # 5️⃣ Terraform Plan
+  # 4️⃣ Terraform Plan
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        terraform plan -out=tfplan -compact-warnings
+        IMAGE_TAG=$(cat /workspace/image_tag.txt)
+        terraform plan -out=tfplan -compact-warnings -var "image_tag=$IMAGE_TAG"
 
-  # 6️⃣ Terraform Apply
+  # 5️⃣ Terraform Apply
   - name: "hashicorp/terraform:1.13.4"
     entrypoint: "sh"
     args:
       - "-c"
       - |
         cd /workspace/IaC-Quality/
-        terraform apply -auto-approve -var "image_tag=$(cat $BUILDER_OUTPUT/env_file | grep IMAGE_TAG | cut -d '=' -f2)"
+        IMAGE_TAG=$(cat /workspace/image_tag.txt)
+        terraform apply -auto-approve tfplan -var "image_tag=$IMAGE_TAG"
 
 # Imagen final para Cloud Build
 images:
